@@ -46,6 +46,24 @@ const userSchema = mongoose.Schema({
         type : String,
         required : true
     },
+
+    bloodGroup: {
+        type: String,
+        enum: ['A+','B+','A-','B-', 'AB+', 'AB-','O+', 'O-'],
+    },
+
+    weight: {
+        type: Number
+    },
+
+    height: {
+        type: Number
+    },
+
+    about : {
+        type : String,
+    },
+
     specialization : {
         type : String
     },
@@ -58,10 +76,32 @@ const userSchema = mongoose.Schema({
         type : String
     },
 
+    schedule: [{
+        date: {
+            type: Date,
+            required: true
+        },
+        slots: [{
+            timeSlot: {
+                type: String,
+                enum: ['Morning', 'Afternoon', 'Evening'],
+                required: true
+            },
+            startTime: {
+                type: String,
+                required: true
+            },
+            endTime: {
+                type: String, // End time in HH:mm format (e.g., '12:00')
+                required: true
+            }
+        }]
+    }],
+
     appointments:[
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "User"
+            ref: "Appointment"
         }
     ],
 

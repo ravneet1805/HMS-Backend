@@ -14,10 +14,11 @@ const signUp = async (req, res) =>  {
             age,
             gender,
             password,
-            accountType, 
-            qualification, 
-            specialization, 
-            experience 
+            accountType,
+            qualification,
+            specialization,
+            experience,
+            about
         } = req.body;
 
         try {
@@ -39,13 +40,12 @@ const signUp = async (req, res) =>  {
                     gender:gender,
                     password: hashedPassword,
                     accountType: accountType,
-                    
     
                 });
         
-                const token = jwt.sign({ email: result.email, id: result._id }, process.env.SECRET_KEY);
-                console.log(process.env.SECRET_KEY)
+                const token = jwt.sign({ id: result._id, email: result.email }, process.env.SECRET_KEY);
                 console.log(result)
+
                 res.status(201).json({
                     user: result,
                     token: token,
@@ -62,12 +62,12 @@ const signUp = async (req, res) =>  {
                     password: hashedPassword,
                     accountType: accountType,
                     qualification: qualification,
+                    about: about,
                     specialization: specialization,
                     experience: experience,
                 });
-        
-                const token = jwt.sign({ email: result.email, id: result._id }, process.env.SECRET_KEY);
-                console.log(process.env.SECRET_KEY)
+                
+                const token = jwt.sign({ id: result._id, email: result.email }, process.env.SECRET_KEY);
                 console.log(result)
                 res.status(201).json({
                     user: result,
@@ -98,7 +98,7 @@ const signIn = async (req, res) => {
         if (!matchPassword) {
             return res.status(400).json({ message: "Incorrect Password." });
         }
-
+        console.log(process.env.SECRET_KEY)
         const token = jwt.sign(
             { email: existingUser.email, id: existingUser._id },
             process.env.SECRET_KEY
