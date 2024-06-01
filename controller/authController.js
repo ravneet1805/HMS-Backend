@@ -46,10 +46,11 @@ const signUp = async (req, res) =>  {
                 const token = jwt.sign({ id: result._id, email: result.email }, process.env.SECRET_KEY);
                 console.log(result)
 
-                res.status(201).json({
+                return res.status(201).json({
                     user: result,
                     token: token,
                 });
+
             }
             else if(accountType == "doctor"){
                 const result = await userModel.create({
