@@ -151,6 +151,30 @@ const bookLabTestAppointment = async (req, res) => {
     }
 };
 
+const cancelLabTestAppointment = async (req, res) => {
+    const {appointmentId} = req.params
+    console.log(appointmentId)
+
+    try {
+        
+        const labTestAppointment = await labTestModel.findById(appointmentId);
+        console.log("found appointment: "+labTestAppointment)
+        if (!labTestAppointment) {
+            return res.status(404).json({ success: false, message: 'Appointment not found' });
+        }
+
+
+        labTestAppointment.status = 'Cancelled';
+        await labTestAppointment.save();
+
+        res.json({ success: true, labTestAppointment });
+
+    } catch (error) {
+        console.error("Error cancelling prescription:", error);
+        res.status(500).json({ success: false, message: 'Server Error', error: error.message });
+    }
+}
+
 module.exports = {
     getApprovedDoctors,
     searchDoctors,
@@ -158,5 +182,6 @@ module.exports = {
     getPatientAppointments,
     updateProfile,
     createEmergencyRequest,
-    bookLabTestAppointment
+    bookLabTestAppointment,
+    cancelLabTestAppointment
 };
