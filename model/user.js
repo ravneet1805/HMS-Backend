@@ -4,7 +4,7 @@ const userSchema = mongoose.Schema({
 
     accountType : {
         type : String,
-        enum : ["patient", "doctor", "admin"],
+        enum : ["patient", "doctor", "admin", "laboratory"],
         required : true
 
     },

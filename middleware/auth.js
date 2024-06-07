@@ -60,3 +60,17 @@ exports.isPatient = async (req, res, next) => {
         res.status(500).json({ message: 'Server Error(patient)' });
     }
 };
+
+exports.isLaboratory = async (req, res, next) => {
+    try {
+        const user = await userModel.findById(req.user.id);
+
+        if (user.accountType !== 'laboratory') {
+            next();
+        }
+        
+    } catch (err) {
+        res.status(500).json({ message: 'Server Error(lab)' });
+    }
+
+}

@@ -49,5 +49,51 @@ const getDoctorAppointments = async (req, res) => {
     }
 };
 
+//update patient's appointment to write prescription
+const addPrescription = async (req, res) => {
+    const { appointmentId } = req.params;
+    const { prescription } = req.body;
 
-module.exports = { addSchedule, getDoctorAppointments }
+
+
+    try {
+        
+        const appointment = await appointmentModel.findById(appointmentId);
+        if (!appointment) {
+            return res.status(404).json({ success: false, message: 'Appointment not found' });
+        }
+        console.log("appointment: "+appointment)
+
+        appointment.prescription = prescription;
+        appointment.status = 'Completed';
+        await appointment.save();
+
+        res.json({ success: true, appointment });
+    } catch (error) {
+        console.error("Error adding prescription:", error);
+        res.status(500).json({ success: false, message: 'Server Error', error: error.message });
+    }
+};
+
+const addTests = async (req, res) => {
+    const { appointmentId } = req.params;
+    const { tests } = req.body;
+
+    try {
+        const appointment = await appointmentModel.findById(appointmentId);
+        if (!appointment) {
+            return res.status(404).json({ success: false, message: 'Appointment not found' });
+        }
+
+        appointment.tests = tests;
+        await appointment.save();
+
+        res.json({ success: true, appointment });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Server Error', error });
+    }
+};
+
+
+
+module.exports = { addSchedule, getDoctorAppointments, addPrescription, addTests }

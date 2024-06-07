@@ -26,6 +26,19 @@ const appointmentSchema = new mongoose.Schema({
         enum: ['Morning', 'Afternoon', 'Evening'],
         required: true
     },
+    status: {
+        type: String,
+        enum: ['Pending', 'Completed'],
+        default: 'Pending'
+    },
+    prescription: {
+        type: String,
+        default:"",
+    },
+    tests: [{
+        testName: String,
+        result: String
+    }]
     
 }, { timestamps: true });
 

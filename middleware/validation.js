@@ -8,7 +8,7 @@ exports.validateSignup = [
     body('age').isInt({ min: 0 }).withMessage('Age must be a non-negative integer'),
     body('gender').isIn(['Male', 'Female', 'Other']).withMessage('Gender is invalid'),
     body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters long'),
-    body('accountType').isIn(['patient', 'admin', 'doctor']).withMessage('Invalid account type'),
+    body('accountType').isIn(['patient', 'admin', 'doctor', 'laboratory']).withMessage('Invalid account type'),
     (req, res, next) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {

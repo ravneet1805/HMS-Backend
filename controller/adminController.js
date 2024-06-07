@@ -8,7 +8,7 @@ const getDoctors = async (req, res) =>  {
 
     const list = await userModel.find({
         accountType : "doctor"
-    });
+    }).populate('appointments');
 
 
     return res.json({
@@ -17,6 +17,27 @@ const getDoctors = async (req, res) =>  {
     })
 
 };
+
+//get all patients
+const getPatients = async (req, res) => {
+    try {
+
+        const list = await userModel.find({
+            accountType : "patient"
+        }).populate('appointments')
+    
+        return res.json({
+            success: true,
+            data: list
+        })
+        
+
+    } catch (error) {
+        res.status(500).json({success: false,
+            message:error
+        })
+    }
+}
 
 // Approve doctor
 const approveDoctor = async (req, res) => {
@@ -58,4 +79,4 @@ const deleteDoctor = async (req, res) => {
     }
 };
 
-module.exports = { getDoctors, approveDoctor, deleteDoctor };
+module.exports = { getDoctors, approveDoctor, deleteDoctor, getPatients };
