@@ -202,7 +202,12 @@ const signIn = async (req, res) => {
 
         res
             .status(201)
-            .json({ message: "Login Success", user: existingUser, token: token });
+            .json({
+                message: "Login Success",
+                accountType: existingUser.accountType,
+                user: existingUser,
+                token: token
+                });
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: "Something Went Wrong." });

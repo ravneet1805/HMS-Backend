@@ -1,7 +1,7 @@
-const { model } = require("mongoose");
 const userModel = require("../model/user");
 const appointmentModel = require("../model/appointments")
 const emergencyModel = require("../model/emergencies")
+const labTestModel = require("../model/labTestAppointment")
 
 
 
@@ -124,11 +124,39 @@ const createEmergencyRequest = async (req, res) => {
     }
 };
 
+//book lab tests
+const bookLabTestAppointment = async (req, res) => {
+    const { date, timeSlot, testName } = req.body;
+    const patientId = req.user.id;
+
+    try {
+        console.log(patientId)
+        const labTestAppointment = new labTestModel({
+            patient: patientId,
+            date,
+            timeSlot,
+            testName
+        });
+        await labTestAppointment.save();
+
+        // Add the appointment reference to both patient
+        await userModel.findByIdAndUpdate(patientId, { $push: { labTestAppointments: labTestAppointment._id } });
+
+        res.status(201).json({
+            success: true,
+            data: labTestAppointment
+        });
+    } catch (error) {
+        res.status(500).json({ success: false, message: "Server Error", error: error.message });
+    }
+};
+
 module.exports = {
     getApprovedDoctors,
     searchDoctors,
     bookAppointment,
     getPatientAppointments,
     updateProfile,
-    createEmergencyRequest
+    createEmergencyRequest,
+    bookLabTestAppointment
 };

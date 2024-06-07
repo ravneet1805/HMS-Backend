@@ -6,6 +6,7 @@ const authRouter = require("./routes/authRouter")
 const adminRouter = require("./routes/adminRouter");
 const patientRouter = require("./routes/patientRouter");
 const doctorRouter = require("./routes/doctorRouter");
+const labRouter = require("./routes/labRouter");
 
 app.use(express.json())
 
@@ -23,6 +24,7 @@ app.use("/auth", authRouter)
 app.use("/admin", adminRouter)
 app.use("/patient", patientRouter)
 app.use("/doctor", doctorRouter)
+app.use("/lab", labRouter)
 
 
 app.get("/", (req,res)=>{

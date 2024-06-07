@@ -65,7 +65,7 @@ exports.isLaboratory = async (req, res, next) => {
     try {
         const user = await userModel.findById(req.user.id);
 
-        if (user.accountType !== 'laboratory') {
+        if (user.accountType == 'laboratory') {
             next();
         }
         
