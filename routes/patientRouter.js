@@ -1,5 +1,5 @@
 const express = require("express");
-const { getApprovedDoctors, searchDoctors, bookAppointment, getPatientAppointments, updateProfile } = require("../controller/patientController");
+const { getApprovedDoctors, searchDoctors, bookAppointment, getPatientAppointments, updateProfile, createEmergencyRequest } = require("../controller/patientController");
 const auth = require('../middleware/auth');
 const patientRouter = express.Router();
 
@@ -14,5 +14,7 @@ patientRouter.post("/bookappointment", auth.authenticate, auth.isPatient, bookAp
 patientRouter.get("/appointments", auth.authenticate, auth.isPatient, getPatientAppointments)
 
 patientRouter.put("/update", auth.authenticate, auth.isPatient, updateProfile)
+
+patientRouter.post("/emergency", auth.authenticate, auth.isPatient, createEmergencyRequest)
 
 module.exports = patientRouter;

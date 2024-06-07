@@ -1,5 +1,6 @@
 const { model } = require("mongoose");
 const userModel = require("../model/user");
+const emergencyModel = require("../model/emergencies")
 
 
 // get all doctors
@@ -79,4 +80,15 @@ const deleteDoctor = async (req, res) => {
     }
 };
 
-module.exports = { getDoctors, approveDoctor, deleteDoctor, getPatients };
+// Get all emergency requests
+const getEmergencyList = async (req, res) => {
+    try {
+        const emergencyRequests = await emergencyModel.find().populate('patient');
+        res.status(200).json({ success: true, emergencyRequests });
+    } catch (error) {
+        console.error("Error fetching emergency requests:", error); // Log the error to the console
+        res.status(500).json({ success: false, message: 'Server Error', error: error.message });
+    }
+};
+
+module.exports = { getDoctors, approveDoctor, deleteDoctor, getPatients, getEmergencyList };

@@ -1,5 +1,5 @@
 const express = require("express");
-const {getDoctors, approveDoctor, deleteDoctor, getPatients} = require("../controller/adminController");
+const {getDoctors, approveDoctor, deleteDoctor, getPatients, getEmergencyList} = require("../controller/adminController");
 const auth = require('../middleware/auth');
 const adminRouter = express.Router();
 
@@ -13,6 +13,9 @@ adminRouter.put("/doctors/:doctorId/approve", auth.authenticate , auth.isAdmin, 
 
 //reject doctor request and it will get deleted from the DB
 adminRouter.delete("/doctors/:doctorId", auth.authenticate , auth.isAdmin, deleteDoctor);
+
+//get emergency list
+adminRouter.get("/emergency", auth.authenticate , auth.isAdmin, getEmergencyList);
 
 
 

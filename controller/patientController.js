@@ -1,6 +1,7 @@
 const { model } = require("mongoose");
 const userModel = require("../model/user");
 const appointmentModel = require("../model/appointments")
+const emergencyModel = require("../model/emergencies")
 
 
 
@@ -104,10 +105,30 @@ const getPatientAppointments = async (req, res) => {
     }
 };
 
+// Create an emergency request
+const createEmergencyRequest = async (req, res) => {
+    const { description } = req.body;
+    const patientId = req.user.id;
+
+    try {
+        const emergencyRequest = new emergencyModel({
+            patient: patientId,
+            description
+        });
+        await emergencyRequest.save();
+
+        res.status(201).json({ success: true, emergencyRequest });
+    } catch (error) {
+        console.error("Error creating emergency request:", error); // Log the error to the console
+        res.status(500).json({ success: false, message: 'Server Error', error: error.message });
+    }
+};
+
 module.exports = {
     getApprovedDoctors,
     searchDoctors,
     bookAppointment,
     getPatientAppointments,
-    updateProfile
+    updateProfile,
+    createEmergencyRequest
 };
