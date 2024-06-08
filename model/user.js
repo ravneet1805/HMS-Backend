@@ -76,6 +76,11 @@ const userSchema = mongoose.Schema({
         type : String
     },
 
+    fees: {
+        type: String
+
+    },
+
     schedule: [{
         date: {
             type: Date,

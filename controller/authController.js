@@ -18,7 +18,8 @@ const signUp = async (req, res) => {
         qualification,
         specialization,
         experience,
-        about
+        about,
+        fees
     } = req.body;
 
     try {
@@ -54,6 +55,7 @@ const signUp = async (req, res) => {
                 accountType,
                 qualification,
                 about,
+                fees,
                 specialization,
                 experience
             });
@@ -88,6 +90,7 @@ const signUp = async (req, res) => {
         console.log(result)
 
         res.status(201).json({
+            success: true,
             user: result,
             token: token,
         });
@@ -203,14 +206,16 @@ const signIn = async (req, res) => {
         res
             .status(201)
             .json({
-                message: "Login Success",
+                success: true,
                 accountType: existingUser.accountType,
                 user: existingUser,
                 token: token
                 });
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: "Something Went Wrong." });
+        res.status(500).json({ 
+            success:false,
+            message: "Something Went Wrong." });
     }
 };
 
