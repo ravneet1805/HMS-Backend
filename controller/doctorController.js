@@ -94,6 +94,33 @@ const addTests = async (req, res) => {
     }
 };
 
+const getProfile = async (req, res) => {
+    try {
+        const doctorId = req.user.id;
+
+        const doctor = await userModel.findById(doctorId);
+
+        if (!doctor) {
+            return res.status(404).json({
+                success: false,
+                message: 'Doctor not found'
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            data: doctor
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Server Error',
+            error: error.message
+        });
+    }
+}
 
 
-module.exports = { addSchedule, getDoctorAppointments, addPrescription, addTests }
+
+
+module.exports = { addSchedule, getDoctorAppointments, addPrescription, addTests, getProfile}

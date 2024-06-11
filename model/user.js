@@ -82,11 +82,8 @@ const userSchema = mongoose.Schema({
     },
 
     schedule: [{
-        date: {
-            type: Date,
-            required: true
-        },
-        slots: [{
+        
+       
             timeSlot: {
                 type: String,
                 enum: ['Morning', 'Afternoon', 'Evening'],
@@ -100,7 +97,7 @@ const userSchema = mongoose.Schema({
                 type: String, // End time in HH:mm format (e.g., '12:00')
                 required: true
             }
-        }]
+        
     }],
 
     appointments:[

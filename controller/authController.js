@@ -19,7 +19,10 @@ const signUp = async (req, res) => {
         specialization,
         experience,
         about,
-        fees
+        fees,
+        bloodGroup,
+        height,
+        weight
     } = req.body;
 
     try {
@@ -41,7 +44,10 @@ const signUp = async (req, res) => {
                 age,
                 gender,
                 password: hashedPassword,
-                accountType
+                accountType,
+                bloodGroup,
+                weight,
+                height
             });
         } else if (accountType === "doctor") {
             result = await userModel.create({
