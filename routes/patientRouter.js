@@ -1,8 +1,9 @@
 const express = require("express");
 const { getApprovedDoctors, searchDoctors, bookAppointment,
     getPatientAppointments, updateProfile, createEmergencyRequest,
-    bookLabTestAppointment, cancelLabTestAppointment } = require("../controller/patientController");
+    bookLabTestAppointment, cancelLabTestAppointment, getPatientLabAppointments } = require("../controller/patientController");
 const auth = require('../middleware/auth');
+const { getLabTestAppointments } = require("../controller/labController");
 const patientRouter = express.Router();
 
 // Get all approved doctors
@@ -22,5 +23,7 @@ patientRouter.post("/emergency", auth.authenticate, auth.isPatient, createEmerge
 patientRouter.post("/booktest", auth.authenticate, auth.isPatient, bookLabTestAppointment)
 
 patientRouter.put("/canceltest/:appointmentId", auth.authenticate, auth.isPatient, cancelLabTestAppointment)
+
+patientRouter.get("/gettestappointments", auth.authenticate, auth.isPatient, getLabTestAppointments)
 
 module.exports = patientRouter;

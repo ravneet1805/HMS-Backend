@@ -124,6 +124,22 @@ const createEmergencyRequest = async (req, res) => {
     }
 };
 
+
+// Get appointments for the logged-in patient
+const getPatientLabAppointments = async (req, res) => {
+    const patientId = req.user.id;
+
+    try {
+        const appointments = await labTestModel.find({ patient: patientId })
+        res.json({
+            success: true,
+            data: appointments
+        });
+    } catch (error) {
+        res.status(500).json({ success: false, message: "Server Error" });
+    }
+};
+
 //book lab tests
 const bookLabTestAppointment = async (req, res) => {
     const { date, timeSlot, testName } = req.body;
@@ -183,5 +199,6 @@ module.exports = {
     updateProfile,
     createEmergencyRequest,
     bookLabTestAppointment,
-    cancelLabTestAppointment
+    cancelLabTestAppointment,
+    getPatientLabAppointments
 };
